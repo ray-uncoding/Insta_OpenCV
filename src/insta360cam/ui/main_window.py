@@ -7,13 +7,13 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QTimer, pyqtSlot
 from PyQt5.QtGui import QImage, QPixmap
 import numpy as np
-from utils.frame_splitter import split_frame_six_regions
-from utils.config_loader import get_setting
+from src.insta360cam.utils.frame_splitter import split_frame_six_regions
+from src.insta360cam.utils.config_loader import get_setting
 import asyncio
-from controller.insta_worker import InstaWorker
+from src.insta360cam.controller.insta_worker import InstaWorker
 import cv2
-from controller.insta_controller import InstaController
-from ui.ui_worker import UIWorker
+from src.insta360cam.controller.insta_controller import InstaController
+from src.insta360cam.ui.ui_worker import UIWorker
 
 # OpenCV 影像轉 QPixmap
 def cvimg_to_qpixmap(cv_img):

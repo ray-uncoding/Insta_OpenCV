@@ -1,0 +1,5 @@
+# .gitignore
+__pycache__/
+*.pyc
+src/insta360cam/**/__pycache__/
+src/insta360cam/**/**/*.pyc

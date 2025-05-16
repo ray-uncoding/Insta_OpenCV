@@ -1,9 +1,9 @@
 # controller/insta_worker.py
 
 import threading
-from controller.insta_controller import InstaController
-from utils.frame_receiver import FrameReceiver
-from services.heartbeat import HeartbeatService
+from src.insta360cam.controller.insta_controller import InstaController
+from src.insta360cam.utils.frame_receiver import FrameReceiver
+from src.insta360cam.services.heartbeat import HeartbeatService
 import asyncio
 
 class InstaWorker:

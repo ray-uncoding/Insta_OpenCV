@@ -2,7 +2,7 @@
 # 單獨測試 InstaController API 功能
 import cv2
 import time
-from controller.insta_worker import InstaWorker
+from src.insta360cam.api import InstaWorker
 
 def main():
     print("[TEST] Init InstaWorker ...")

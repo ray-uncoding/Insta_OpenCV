@@ -1,7 +1,7 @@
 # services/heartbeat.py
 
 import asyncio
-# 將 import 移到 __init__ 內部以避免循環匯入
+# from src.insta360cam.controller.insta_worker import InstaWorker
 
 class HeartbeatService:
     """
@@ -46,3 +46,5 @@ class HeartbeatService:
         結束心跳服務（設定 running 為 False，結束 loop）。
         """
         self.running = False
+
+# 若真的需要用到 InstaWorker，請在 function 內部再 import

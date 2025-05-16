@@ -3,11 +3,11 @@
 UIWorker: 專為 UI 管理高階功能（RTMP 啟動、心跳、FrameReceiver、異常處理）
 讓 main_window.py 只需專注於 UI 顯示與互動。
 """
-from controller.insta_worker import InstaWorker
+from src.insta360cam.controller.insta_worker import InstaWorker
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap, QImage
 import numpy as np
-from utils.frame_splitter import split_frame_six_regions
+from src.insta360cam.utils.frame_splitter import split_frame_six_regions
 import cv2
 
 # OpenCV 影像轉 QPixmap
@@ -46,7 +46,7 @@ class FrameProcessWorker(QThread):
             x_offset = (target_w - new_w) // 2
             result[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = resized
             return result
-        from utils.frame_splitter import split_frame_by_centers
+        from src.insta360cam.utils.frame_splitter import split_frame_by_centers
         while self.running:
             frame = self.get_frame_func()
             if frame is not None:

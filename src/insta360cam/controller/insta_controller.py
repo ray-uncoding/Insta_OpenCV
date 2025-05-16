@@ -3,9 +3,9 @@
 import aiohttp
 import json
 import os
-from utils.config_loader import load_settings, save_settings
-from utils.frame_receiver import FrameReceiver
-from services.heartbeat import HeartbeatService
+from src.insta360cam.utils.config_loader import load_settings, save_settings
+from src.insta360cam.utils.frame_receiver import FrameReceiver
+from src.insta360cam.services.heartbeat import HeartbeatService
 import threading
 import asyncio
 

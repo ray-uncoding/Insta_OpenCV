@@ -113,7 +113,7 @@ insta_cam_module/
 ### 1. 取得即時影像（不啟動 UI）
 
 ```python
-from insta_cam_module.api import InstaWorker
+from src.insta360cam.api import InstaWorker
 
 worker = InstaWorker()
 ready_event = worker.start_all()
@@ -125,14 +125,14 @@ frame = worker.get_latest_frame()
 ### 2. 啟動 Insta360 UI
 
 ```python
-from insta_cam_module.api import launch_ui
+from src.insta360cam.api import launch_ui
 launch_ui()  # 會阻塞主執行緒，直到 UI 關閉
 ```
 
 ### 3. 進行全景影像分割
 
 ```python
-from insta_cam_module.utils.frame_splitter import split_frame_by_centers
+from src.insta360cam.utils.frame_splitter import split_frame_by_centers
 # 假設 frame 為 360 相機輸出
 centers = [0, 120, 240]
 fov = 120
