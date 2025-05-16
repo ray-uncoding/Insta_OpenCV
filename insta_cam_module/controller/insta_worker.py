@@ -19,11 +19,13 @@ class InstaWorker:
         self._loop = None
         self._thread = None
 
-    def start_all(self):
+    def start_all(self, on_stream_error=None):
         """
         啟動所有服務（connect、心跳、RTMP 串流、FrameReceiver），回傳 ready event。
+        可選 on_stream_error callback，供 UI 顯示串流異常。
         """
         self._ready_event.clear()
+        self._on_stream_error = on_stream_error
         self._loop = asyncio.new_event_loop()
         self._thread = threading.Thread(target=self._start_async, daemon=True)
         self._thread.start()
@@ -63,8 +65,9 @@ class InstaWorker:
                 if hasattr(self, '_debug') and self._debug:
                     print(f"[Worker] RTMP check exception: {e}")
                 time.sleep(1)
+        # 傳入 on_stream_error callback
         self.frame_receiver = FrameReceiver(stream_url)
-        self.frame_receiver.start()
+        self.frame_receiver.start(on_error=self._on_stream_error)
         self._ready_event.set()
         await heartbeat_task
 

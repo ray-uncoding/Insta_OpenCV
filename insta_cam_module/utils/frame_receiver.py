@@ -28,6 +28,8 @@ class FrameReceiver:
         frame_count = 0
         import time
         last_log = time.time()
+        reconnect_attempts = 0
+        max_reconnects = 3
         while self.running:
             try:
                 ret, frame = self.capture.read()
@@ -35,6 +37,7 @@ class FrameReceiver:
                     self.latest_frame = frame
                     fail_count = 0
                     frame_count += 1
+                    reconnect_attempts = 0  # 成功抓到 frame 就歸零
                     # Log in English for debugging
                     if time.time() - last_log > 1:
                         print(f"[FrameReceiver] Frames grabbed: {frame_count}, latest frame shape: {frame.shape if frame is not None else None}")
@@ -43,10 +46,19 @@ class FrameReceiver:
                     fail_count += 1
                     print(f"[FrameReceiver] cap.read() failed, fail_count={fail_count}")
                     if fail_count >= 30:
-                        self.running = False
-                        if self.on_error:
-                            self.on_error("Stream error, stopped automatically.")
-                        break
+                        reconnect_attempts += 1
+                        print(f"[FrameReceiver] Try reconnect {reconnect_attempts}/{max_reconnects} ...")
+                        self.capture.release()
+                        time.sleep(1)
+                        self.capture = cv2.VideoCapture(self.stream_url)
+                        if not self.capture.isOpened():
+                            print(f"[FrameReceiver] Reconnect failed: cannot open stream.")
+                        fail_count = 0
+                        if reconnect_attempts >= max_reconnects:
+                            self.running = False
+                            if self.on_error:
+                                self.on_error("Stream error, stopped after reconnect attempts.")
+                            break
             except Exception as e:
                 self.running = False
                 if self.on_error:
